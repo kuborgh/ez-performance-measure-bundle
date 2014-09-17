@@ -1,0 +1,43 @@
+parameters:
+    kuborgh_measure.singleservice.contenttypeload.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\SingleManager
+    kuborgh_measure.listservice.contenttypeload.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\ListManager
+    kuborgh_measure.measurer.contentservice.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\ContentServiceMeasurer
+    kuborgh_measure.measurer.locationcontent.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\LocationContentServiceMeasurer
+    kuborgh_measure.measurer.searchcontent.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\SearchContentMeasurer
+    kuborgh_measure.measurer.searchservicefindsingle.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\SearchServiceFindSingleMeasurer
+    kuborgh_measure.measurer.searchservicefindcontentassingle.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\SearchServiceFindContentAsSingleMeasurer
+    kuborgh_measure.measurer.searchcontentwithlanguagefilter.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\SearchContentWithLanguageFilterMeasurer
+
+services:
+    kuborgh_measure.singleservice.contenttypeload:
+        class: %kuborgh_measure.singleservice.contenttypeload.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.listservice.contenttypeload:
+        class: %kuborgh_measure.listservice.contenttypeload.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.measurer.contentservice:
+        class: %kuborgh_measure.measurer.contentservice.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.measurer.searchservicefindsingle:
+        class: %kuborgh_measure.measurer.searchservicefindsingle.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.measurer.searchservicefindcontentassingle:
+        class: %kuborgh_measure.measurer.searchservicefindcontentassingle.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.measurer.locationcontent:
+        class: %kuborgh_measure.measurer.locationcontent.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.measurer.searchcontent:
+        class: %kuborgh_measure.measurer.searchcontent.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.measurer.searchcontentwithlanguagefilter:
+        class: %kuborgh_measure.measurer.searchcontentwithlanguagefilter.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]

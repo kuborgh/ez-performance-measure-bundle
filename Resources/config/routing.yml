@@ -1,0 +1,3 @@
+kuborgh_measure_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: KuborghMeasureBundle:Default:index }
