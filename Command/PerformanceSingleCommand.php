@@ -89,7 +89,6 @@ class PerformanceSingleCommand extends ContainerAwareCommand {
             $result->setAvgPercentage(round($result->getAvg()/$minimumArray['avg']*100,2));
         }
 
-
         // output
         foreach($resultSet as $result) {
             $this->printResult($result, $output, $showMinMax);
