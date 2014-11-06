@@ -48,7 +48,7 @@ class PerformanceListCommand extends ContainerAwareCommand {
     {
         $type = $input->getArgument(self::ARGUMENT_CONTENT_TYPE);
         $iterations = $input->getOption(self::OPTION_ITERATIONS);
-        $show_min_max = $input->getOption(self::OUTPUT_OPTIONS);
+        $showMinMax = $input->getOption(self::OUTPUT_OPTIONS);
 
         if(!$type) {
             $output->writeln('No Content type given. Abort.');
@@ -92,7 +92,7 @@ class PerformanceListCommand extends ContainerAwareCommand {
 
         // output
         foreach($resultSet as $result) {
-            $this->printResult($result, $output, $show_min_max);
+            $this->printResult($result, $output, $showMinMax);
         }
     }
 
@@ -102,10 +102,10 @@ class PerformanceListCommand extends ContainerAwareCommand {
      * @param Result $result
      * @param OutputInterface $output
      */
-    protected function printResult(Result $result, OutputInterface $output, $show_min_max=false)
+    protected function printResult(Result $result, OutputInterface $output, $showMinMax=false)
     {
         $output->writeln(sprintf("\nResult for:\t%s", $result->getReference()));
-        if ($show_min_max) {
+        if ($showMinMax) {
             $output->writeln(sprintf("Min. time:\t%01.3f ms\t%01.0f%%", $result->getMin()*1000, $result->getMinPercentage()));
             $output->writeln(sprintf("Max. time:\t%01.3f ms\t%01.0f%%", $result->getMax()*1000, $result->getMaxPercentage()));
         }
