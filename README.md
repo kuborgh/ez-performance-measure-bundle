@@ -52,7 +52,7 @@ Usage:
 
 Arguments:
  ctype                 eZ Content Type
- lang                  eZ Langugage Code
+ lang                  eZ Language Code
 
 Options:
  --iterations (-iter)   Amount of content objects to load and measure (default: 100)
@@ -86,7 +86,7 @@ The following measurer services are provided :
 
 * ContentServiceMeasurer (kuborgh_measure.measurer.contentservice)<br>
   Measure the time to load a content object by if via ContentService::loadContent
-* LocationContentServiceMeasurer (kuborgh_measure.measurer.locationconten)<br>
+* LocationContentServiceMeasurer (kuborgh_measure.measurer.locationcontent)<br>
   First load location via SearchService::findLocations to retrieve the content id and load the content object via ContentService::loadContent
   Use combined SearchService::findLocations & ContentService::findContent (Input: Search, Output: Objects)
 * SearchContent (kuborgh_measure.measurer.searchcontent)<br>
@@ -149,11 +149,11 @@ Add you measurer as a service.<br>
 In your bundles service.yml
 ```
 parameters:
-    mybundle.measurer.mycustom_meaasurer.class: Your\Bundle\AppBundle\Services\Measurer\MyMeasurer
+    mybundle.measurer.mycustom_measurer.class: Your\Bundle\AppBundle\Services\Measurer\MyMeasurer
 
 services:
-	mybundle.measurer.mycustom_meaasurer:
-		class: %mybundle.measurer.mycustom_meaasurer.class%
+	mybundle.measurer.mycustom_measurer:
+		class: %mybundle.measurer.mycustom_measurer.class%
 ```
 
 Add it to the configuration
@@ -161,7 +161,7 @@ Add it to the configuration
 kuborgh_measure:
     content_type_measurer:
     	mycustom:
-			service: 'mybundle.measurer.mycustom_meaasurer'
+			service: 'mybundle.measurer.mycustom_measurer'
 ```
 
 Now your custom measurer will be used if you run the command as described in the usage section!
