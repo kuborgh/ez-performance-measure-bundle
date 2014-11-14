@@ -29,7 +29,7 @@ class CreateTranslationsCommand extends ContainerAwareCommand {
     protected function configure()
     {
         $this->setName('kb:measure:translate');
-        $this->setDescription('Create a translation for each content object of the given type in teh given language code');
+        $this->setDescription('Create a translation for each content object of the given type in the given language code');
         $this->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'eZ Content Type');
         $this->addArgument(self::ARGUMNET_LANGUAGE_CODE, InputArgument::REQUIRED, 'Language Code');
     }
@@ -85,7 +85,7 @@ class CreateTranslationsCommand extends ContainerAwareCommand {
     }
 
     /**
-     * Load all content objects matching teh given identification ( name )
+     * Load all content objects matching the given identification ( name )
      *
      * @param string $contentTypeName
      *
