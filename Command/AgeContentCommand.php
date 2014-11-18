@@ -61,8 +61,6 @@ class AgeContentCommand extends ContainerAwareCommand {
     }
 
     /**
-     *
-     *
      * @param string $contentTypeName
      *
      * @return array

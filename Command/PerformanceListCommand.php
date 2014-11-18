@@ -101,8 +101,9 @@ class PerformanceListCommand extends ContainerAwareCommand {
      *
      * @param Result $result
      * @param OutputInterface $output
+     * @param bool $showMinMax
      */
-    protected function printResult(Result $result, OutputInterface $output, $showMinMax=false)
+    protected function printResult(Result $result, OutputInterface $output, $showMinMax = false)
     {
         $output->writeln(sprintf("\nResult for:\t%s", $result->getReference()));
         if ($showMinMax) {
