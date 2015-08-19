@@ -31,9 +31,11 @@ class SearchRelationMeasurer extends AbstractMeasurer {
      */
     public function measure(ValueObject $valueObject)
     {
+        $content = $this->load($valueObject);
+
         // measure load call
         $start = microtime(true);
-        $this->load($valueObject);
+        $this->loadRelations($content->versionInfo);
         return microtime(true) - $start;
     }
 
@@ -41,13 +43,19 @@ class SearchRelationMeasurer extends AbstractMeasurer {
      * Load the element via ContentService::loadContent.
      *
      * @param ValueObject $valueObject
+     * @return \eZ\Publish\API\Repository\Values\Content\Content
      */
     private function load(ValueObject $valueObject)
     {
-        $query = new Query();
-        $query->criterion = new Query\Criterion\ContentId($valueObject->id);
+        return $this->getApiRepository()->getContentService()->loadContent($valueObject->id);
+    }
 
-        $this->getApiRepository()->getSearchService()->findContent($query);
+    /**
+     * @param \eZ\Publish\API\Repository\Values\Content\VersionInfo $sourceContent
+     */
+    private function loadRelations($sourceContent)
+    {
+        $this->getApiRepository()->getContentService()->loadRelations($sourceContent);
     }
 
     /**
@@ -57,6 +65,6 @@ class SearchRelationMeasurer extends AbstractMeasurer {
      */
     public function getName()
     {
-        return "SearchService::findContent (Query -> Objects)";
+        return "ContentService::loadRelations (Content -> Relation)";
     }
 }

@@ -7,6 +7,7 @@ parameters:
     kuborgh_measure.measurer.searchservicefindsingle.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\SearchServiceFindSingleMeasurer
     kuborgh_measure.measurer.searchservicefindcontentassingle.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\SearchServiceFindContentAsSingleMeasurer
     kuborgh_measure.measurer.searchcontentwithlanguagefilter.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\SearchContentWithLanguageFilterMeasurer
+    kuborgh_measure.measurer.searchrelation.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\SearchRelationMeasurer
 
 services:
     kuborgh_measure.singleservice.contenttypeload:
@@ -39,5 +40,9 @@ services:
             - [setApiRepository, [@ezpublish.api.repository]]
     kuborgh_measure.measurer.searchcontentwithlanguagefilter:
         class: %kuborgh_measure.measurer.searchcontentwithlanguagefilter.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.measurer.searchrelation:
+        class: %kuborgh_measure.measurer.searchrelation.class%
         calls:
             - [setApiRepository, [@ezpublish.api.repository]]

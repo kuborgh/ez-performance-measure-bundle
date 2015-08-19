@@ -74,15 +74,18 @@ class SingleManager {
      * Then run all injected measurers.
      * Returns an array of Results
      *
-     * @param $contentTypeName
-     * @param $iterations
+     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
      *
      * @return Result[]
      */
-    public function run($contentTypeName, $iterations)
+    public function run($query)
     {
         // load value objects to search for
-        $valueObjects = $this->loadContentIdsByType($contentTypeName, $iterations);
+        $searchResult = $this->getSearchService()->findContent($query);
+        $valueObjects = array();
+        foreach($searchResult->searchHits as $hit) {
+            $valueObjects[] = $hit->valueObject;
+        }
 
         // for each injected measurer
         $resultSet = array();
@@ -91,28 +94,5 @@ class SingleManager {
         }
 
         return $resultSet;
-    }
-
-    /**
-     * Load content object ids for the performance test.
-     *
-     * @param string $type
-     * @param int    $iterations
-     *
-     * @return ValueObject[]
-     */
-    protected function loadContentIdsByType($type, $iterations = 100)
-    {
-        $query = new Query();
-        $query->criterion = new Query\Criterion\ContentTypeIdentifier($type);
-        $query->limit = $iterations;
-
-        $searchResult = $this->getSearchService()->findContent($query);
-        $contentsToFind = array();
-        foreach($searchResult->searchHits as $hit) {
-            $contentsToFind[] = $hit->valueObject;
-        }
-
-        return $contentsToFind;
     }
 }

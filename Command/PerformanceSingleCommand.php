@@ -23,6 +23,7 @@ class PerformanceSingleCommand extends ContainerAwareCommand {
     const ARGUMENT_CONTENT_TYPE = 'ctype';
     const OPTION_ITERATIONS = 'iterations';
     const OUTPUT_OPTIONS = 'show_min_max';
+    const OPTION_PARENT_LID = 'parent-location';
 
     /**
      * Configure command
@@ -34,6 +35,7 @@ class PerformanceSingleCommand extends ContainerAwareCommand {
         $this->addArgument(self::ARGUMENT_CONTENT_TYPE, null, 'eZ Content Type');
         $this->addOption(self::OPTION_ITERATIONS, 'iter', InputOption::VALUE_OPTIONAL, 'Amount of content objects to load and measure', 100);
         $this->addOption(self::OUTPUT_OPTIONS, 'minmax', InputOption::VALUE_OPTIONAL, 'Should min / max values be shown', 0);
+        $this->addOption(self::OPTION_PARENT_LID, null, InputOption::VALUE_REQUIRED, 'Add content criteria for parent id');
     }
 
     /**
@@ -63,7 +65,19 @@ class PerformanceSingleCommand extends ContainerAwareCommand {
         }
 
         $output->writeln(sprintf("Running max. %d tests for %s with measurers %s\n...", $iterations, $type, implode(', ', $measurerNames)));
-        $resultSet = $manager->run($type, $iterations);
+        $criterions = array(
+            new Query\Criterion\ContentTypeIdentifier($type),
+        );
+
+        if ($input->hasOption(self::OPTION_PARENT_LID)) {
+            $parentId = $input->getOption(self::OPTION_PARENT_LID);
+            $criterions[] = new Query\Criterion\ParentLocationId($parentId);
+        }
+
+        $query = new Query();
+        $query->criterion = new Query\Criterion\LogicalAnd($criterions);
+        $query->limit = $iterations;
+        $resultSet = $manager->run($query);
 
         $output->write("\n<info>Results</info>\n\n");
 
