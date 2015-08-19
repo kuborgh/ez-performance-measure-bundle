@@ -1,0 +1,15 @@
+{
+    "name": "kuborgh/ez-measure-bundle",
+    "type": "library",
+    "description": "Library for measuring ez performance",
+    "keywords": ["library"],
+    "homepage": "https://github.com/kuborgh/ez-performance-measure-bundle",
+    "license": "proprietary",
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-0": { "Kuborgh\\Bundle\\MeasureBundle": "" }
+    },
+    "minimum-stability": "dev"
+}
