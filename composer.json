@@ -9,7 +9,7 @@
         "php": ">=5.3.2"
     },
     "autoload": {
-        "psr-0": { "Kuborgh\\Bundle\\MeasureBundle": "" }
+        "psr-4": { "Kuborgh\\Bundle\\MeasureBundle": "" }
     },
     "minimum-stability": "dev"
 }
