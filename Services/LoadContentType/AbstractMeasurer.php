@@ -12,6 +12,7 @@ namespace Kuborgh\Bundle\MeasureBundle\Services\LoadContentType;
 
 
 use eZ\Publish\API\Repository\Values\ValueObject;
+use Kuborgh\Bundle\MeasureBundle\Exception\MeasureException;
 
 abstract class AbstractMeasurer implements MeasurerInterface {
 
@@ -42,12 +43,16 @@ abstract class AbstractMeasurer implements MeasurerInterface {
 
         // make test for each value object
         foreach($valueObjects as $valueObject) {
-            $time = $this->measure($valueObject);
+            try {
+                $time = $this->measure($valueObject);
 
-            $min = ($min < $time) ? $min : $time;
-            $max = ($max > $time) ? $max : $time;
+                $min = ($min < $time) ? $min : $time;
+                $max = ($max > $time) ? $max : $time;
 
-            $total += $time;
+                $total += $time;
+            } catch (MeasureException $e) {
+                // @todo log that measure failed
+            }
         }
 
         // save results in object

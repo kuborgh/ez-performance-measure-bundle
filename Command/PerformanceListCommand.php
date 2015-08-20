@@ -70,8 +70,8 @@ class PerformanceListCommand extends ContainerAwareCommand {
             new Query\Criterion\ContentTypeIdentifier($type),
         );
 
-        if ($input->hasOption(self::OPTION_PARENT_LID)) {
-            $parentId = $input->getOption(self::OPTION_PARENT_LID);
+        $parentId = $input->getOption(self::OPTION_PARENT_LID);
+        if ($parentId) {
             $criterions[] = new Query\Criterion\ParentLocationId($parentId);
         }
 

@@ -19,7 +19,24 @@ use eZ\Publish\API\Repository\Values\Content\Query;
  * Load a content object.
  * Measure load time for all related content for that object.
  */
-class SearchRelationMeasurer extends AbstractMeasurer {
+class SearchReverseRelationMeasurer extends AbstractMeasurer {
+
+    /**
+     * Do auth as admin.
+     * Then continue as normal.
+     *
+     * @param \eZ\Publish\API\Repository\Values\ValueObject[] $valueObjects
+     *
+     * @return \Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Result|void
+     */
+    public function measureAll($valueObjects)
+    {
+        $apiRepo = $this->getApiRepository();
+        $user = $apiRepo->getUserService()->loadUserByLogin('admin');
+        $apiRepo->setCurrentUser($user);
+
+        return parent::measureAll($valueObjects);
+    }
 
     /**
      * Load the given value object.
@@ -35,7 +52,7 @@ class SearchRelationMeasurer extends AbstractMeasurer {
 
         // measure load call
         $start = microtime(true);
-        $this->loadRelations($content->versionInfo);
+        $this->loadReverseRelations($content->contentInfo);
         return microtime(true) - $start;
     }
 
@@ -51,14 +68,14 @@ class SearchRelationMeasurer extends AbstractMeasurer {
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\VersionInfo $sourceContent
+     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $sourceContent
      */
-    private function loadRelations($sourceContent)
+    private function loadReverseRelations($sourceContent)
     {
         $cntSrv = $this->getApiRepository()->getContentService();
-        $relations = $cntSrv->loadRelations($sourceContent);
-        foreach ($relations as $relEntry) {
-            $cntSrv->loadContent($relEntry->destinationContentInfo->id);
+        $relations = $cntSrv->loadReverseRelations($sourceContent);
+        foreach($relations as $relEntry) {
+            $cntSrv->loadContent($relEntry->sourceContentInfo->id);
         }
     }
 
@@ -69,6 +86,6 @@ class SearchRelationMeasurer extends AbstractMeasurer {
      */
     public function getName()
     {
-        return "ContentService::loadRelations && loadContent (Content -> Relation -> Content)";
+        return "ContentService::loadReverseRelations && loadContent (Content -> Relation -> content)";
     }
 }
