@@ -51,7 +51,7 @@ abstract class AbstractMeasurer implements MeasurerInterface {
         }
 
         // save results in object
-        $result->setAvg($total / count($valueObjects));
+        $result->setAvg(empty($valueObjects) ? 0 : $total / count($valueObjects));
         $result->setMin($min);
         $result->setMax($max);
 

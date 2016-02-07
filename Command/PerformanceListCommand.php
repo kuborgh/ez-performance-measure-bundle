@@ -84,9 +84,9 @@ class PerformanceListCommand extends ContainerAwareCommand {
 
         // set average to each
         foreach($resultSet as $result) {
-            $result->setMinPercentage(round($result->getMin()/$minimumArray['min']*100,2));
-            $result->setMaxPercentage(round($result->getMax()/$minimumArray['max']*100,2));
-            $result->setAvgPercentage(round($result->getAvg()/$minimumArray['avg']*100,2));
+            $result->setMinPercentage(empty($minimumArray['min']) ? 0 : round($result->getMin()/$minimumArray['min']*100,2));
+            $result->setMaxPercentage(empty($minimumArray['max']) ? 0 : round($result->getMax()/$minimumArray['max']*100,2));
+            $result->setAvgPercentage(empty($minimumArray['avg']) ? 0 : round($result->getAvg()/$minimumArray['avg']*100,2));
         }
 
 
