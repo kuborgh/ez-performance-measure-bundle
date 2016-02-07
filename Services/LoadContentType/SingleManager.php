@@ -74,13 +74,19 @@ class SingleManager {
      * Then run all injected measurers.
      * Returns an array of Results
      *
-     * @param $contentTypeName
-     * @param $iterations
+     * @param string $contentTypeName
+     * @param int    $iterations
+     * @param int    $userId
      *
      * @return Result[]
      */
-    public function run($contentTypeName, $iterations)
+    public function run($contentTypeName, $iterations, $userId = 0)
     {
+        // set user id if provided
+        if ($userId) {
+            $this->getApiRepository()->setCurrentUser($this->getApiRepository()->getUserService()->loadUser($userId));
+        }
+
         // load value objects to search for
         $valueObjects = $this->loadContentIdsByType($contentTypeName, $iterations);
 
@@ -105,7 +111,7 @@ class SingleManager {
     {
         $query = new Query();
         $query->filter = new Query\Criterion\ContentTypeIdentifier($type);
-        $query->limit = (int)$iterations;
+        $query->limit = $iterations;
 
         $searchResult = $this->getSearchService()->findContent($query);
         $contentsToFind = array();
