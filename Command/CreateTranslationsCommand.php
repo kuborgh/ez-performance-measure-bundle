@@ -94,7 +94,7 @@ class CreateTranslationsCommand extends ContainerAwareCommand {
     protected function loadContentObjects($contentTypeName)
     {
         $query = new Query();
-        $query->criterion = new Query\Criterion\ContentTypeIdentifier($contentTypeName);
+        $query->filter = new Query\Criterion\ContentTypeIdentifier($contentTypeName);
 
         $searchResult = $this->getSearchService()->findContent($query);
         $contentsToFind = array();

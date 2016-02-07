@@ -41,7 +41,7 @@ class SearchContentWithLanguageFilterMeasurer extends AbstractMeasurer {
     private function load(ValueObject $valueObject)
     {
         $query = new Query();
-        $query->criterion = new Query\Criterion\ContentId($valueObject->id);
+        $query->filter = new Query\Criterion\ContentId($valueObject->id);
 
         // filter for only current! language
         $fieldFilters = array();

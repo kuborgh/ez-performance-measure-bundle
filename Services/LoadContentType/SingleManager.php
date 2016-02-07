@@ -104,8 +104,8 @@ class SingleManager {
     protected function loadContentIdsByType($type, $iterations = 100)
     {
         $query = new Query();
-        $query->criterion = new Query\Criterion\ContentTypeIdentifier($type);
-        $query->limit = $iterations;
+        $query->filter = new Query\Criterion\ContentTypeIdentifier($type);
+        $query->limit = (int)$iterations;
 
         $searchResult = $this->getSearchService()->findContent($query);
         $contentsToFind = array();
