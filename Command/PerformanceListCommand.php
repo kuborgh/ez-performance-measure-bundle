@@ -23,6 +23,7 @@ class PerformanceListCommand extends ContainerAwareCommand {
     const ARGUMENT_CONTENT_TYPE = 'ctype';
     const OPTION_ITERATIONS = 'iterations';
     const OUTPUT_OPTIONS = 'show_min_max';
+    const OPTION_USER = 'as_user';
 
     /**
      * Configure command
@@ -34,6 +35,7 @@ class PerformanceListCommand extends ContainerAwareCommand {
         $this->addArgument(self::ARGUMENT_CONTENT_TYPE, null, 'eZ Content Type');
         $this->addOption(self::OPTION_ITERATIONS, 'iter', InputOption::VALUE_OPTIONAL, 'Amount of content objects to load and measure', 100);
         $this->addOption(self::OUTPUT_OPTIONS, 'minmax', InputOption::VALUE_OPTIONAL, 'Should min / max values be shown', 0);
+        $this->addOption(self::OPTION_USER, 'user', InputOption::VALUE_OPTIONAL, 'User ID to run tests with', 0);
     }
 
     /**
@@ -47,8 +49,9 @@ class PerformanceListCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $type = $input->getArgument(self::ARGUMENT_CONTENT_TYPE);
-        $iterations = $input->getOption(self::OPTION_ITERATIONS);
+        $iterations = (int)$input->getOption(self::OPTION_ITERATIONS);
         $showMinMax = $input->getOption(self::OUTPUT_OPTIONS);
+        $userId = (int)$input->getOption(self::OPTION_USER);
 
         if(!$type) {
             $output->writeln('No Content type given. Abort.');
@@ -63,7 +66,7 @@ class PerformanceListCommand extends ContainerAwareCommand {
         }
 
         $output->writeln(sprintf("Running max. %d tests for %s with measurers %s\n...", $iterations, $type, implode(', ', $measurerNames)));
-        $resultSet = $manager->run($type, $iterations);
+        $resultSet = $manager->run($type, $iterations, $userId);
 
         $output->write("\n<info>Results</info>\n\n");
 
@@ -84,9 +87,9 @@ class PerformanceListCommand extends ContainerAwareCommand {
 
         // set average to each
         foreach($resultSet as $result) {
-            $result->setMinPercentage(round($result->getMin()/$minimumArray['min']*100,2));
-            $result->setMaxPercentage(round($result->getMax()/$minimumArray['max']*100,2));
-            $result->setAvgPercentage(round($result->getAvg()/$minimumArray['avg']*100,2));
+            $result->setMinPercentage(empty($minimumArray['min']) ? 0 : round($result->getMin()/$minimumArray['min']*100,2));
+            $result->setMaxPercentage(empty($minimumArray['max']) ? 0 : round($result->getMax()/$minimumArray['max']*100,2));
+            $result->setAvgPercentage(empty($minimumArray['avg']) ? 0 : round($result->getAvg()/$minimumArray['avg']*100,2));
         }
 
 

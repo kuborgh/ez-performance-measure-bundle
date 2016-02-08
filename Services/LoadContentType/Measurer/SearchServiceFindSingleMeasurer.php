@@ -41,9 +41,9 @@ class SearchServiceFindSingleMeasurer extends AbstractMeasurer {
     private function load(ValueObject $valueObject)
     {
         $query = new Query();
-        $query->criterion = new Query\Criterion\ContentId($valueObject->id);
+        $query->filter = new Query\Criterion\ContentId($valueObject->id);
 
-        $this->getApiRepository()->getSearchService()->findSingle($query->criterion);
+        $this->getApiRepository()->getSearchService()->findSingle($query->filter);
     }
 
     /**

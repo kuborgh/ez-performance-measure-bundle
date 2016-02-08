@@ -41,7 +41,7 @@ class LocationContentServiceMeasurer extends AbstractMeasurer {
     private function load(ValueObject $valueObject)
     {
         $query = new LocationQuery();
-        $query->criterion = new Query\Criterion\ContentId($valueObject->id);
+        $query->filter = new Query\Criterion\ContentId($valueObject->id);
 
         $res = $this->getApiRepository()->getSearchService()->findLocations($query);
 
